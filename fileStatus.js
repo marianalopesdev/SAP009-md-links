@@ -9,6 +9,12 @@ module.exports = function printMsg() {
       return console.log(err);
     }
 
+    const linksRegex = /(https?:\/\/\S+(?=\b))/g;
+
+    const links = contents.toString().match(linksRegex);
+   
+   console.log(links);    
+
     console.log(`The file name entered at the prompt is ${file}`);
   });
 };
