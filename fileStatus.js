@@ -1,10 +1,14 @@
-const showHttpStatusMessages = require("./httpStatusMessages");
+
+const linkStats = require('./linkStats');
+const validateLinks = require('./validateLink');
 const chalk = require("chalk");
 let https = require("https");
 const fs = require("fs");
 
 module.exports = function printMsg() {
+
   const file = process.argv[2];
+
 
   console.log(chalk.blue("Hello world!"));
 
@@ -13,22 +17,23 @@ module.exports = function printMsg() {
       return console.log(err);
     }
 
-    const linksRegex = /(https?:\/\/\S+(?=\b))/g;
+    const linksRegex = /(https?:\/\/\S+(?=\b))/gm;
+    const linkTextRegex = /\[(.*)\]/gm;
 
     const links = contents.toString().match(linksRegex);
-    for (let i = 0; i <= links.length - 1; i++) {
-      let link = links[i];
-      // console.log([i] +" "+ link);
-
-      https.get(link, (response) => {
-        response.setEncoding("utf8");
-        response.on("error", console.error);
-        const httpStatusMessage = showHttpStatusMessages(response.statusCode);
-
-        console.log(`Link: ${link} - ${httpStatusMessage}`);
-      });
+    const linkTexts = contents.toString().match(linkTextRegex);
+    const linkTextsWithoutBrackets = linkTexts.map(linkText => linkText.replace(/\[|\]/g, ''));
+   
+    for (let i = 0 ; i <= links.length - 1  ; i++){
+      console.log(`Link: ${links[i]} - Text: ${linkTextsWithoutBrackets[i]} - File Path: ${process.argv[2]}`);
     }
 
-    console.log(`O arquivo ${file} contém ${links.length - 1}links.`);
+  
+  //  validateLinks(links);
+    // const stats = linkStats(links);
+    // console.log(stats);
+   
+       console.log(`The file ${file} contains ${links.length - 1} links.`);
+     //  console.log(links);
   });
 };
