@@ -28,10 +28,10 @@
   },
   "homepage": "https://github.com/marianalopesdev/SAP009-md-links#readme",
   "dependencies": {
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "commander": "^10.0.1"
   },
   "bin": {
-    "todo": "cli.js"
+    "md-links": "cli.js"
   }
-  
 }
