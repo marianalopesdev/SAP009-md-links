@@ -29,6 +29,7 @@
   "homepage": "https://github.com/marianalopesdev/SAP009-md-links#readme",
   "dependencies": {
     "chalk": "^4.1.2",
+    "cli-table": "^0.3.11",
     "commander": "^10.0.1"
   },
   "bin": {
