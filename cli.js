@@ -17,9 +17,11 @@ program
     
     program
     .argument('<path>')
-    .option('--verify', 'Verifica a integridade dos links')
-    .description('Verifica a integridade dos linsk')
+    .option('--validate', 'Verifica a integridade dos links')
+    .option('--stats', 'Verifica a integridade dos links')
+    .description('Mostra os links do arquivo')
     .action((path, option) => {
+        
    //  console.log(path + ' verify the files, modafocas')
       mdLinks(path,option);
     });
