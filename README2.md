@@ -1,5 +1,3 @@
-Claro, aqui está o arquivo `readme.md` com todos os links em formato markdown:
-
 # Lista de links úteis
 
 Aqui está uma lista de links úteis para vários tópicos:
