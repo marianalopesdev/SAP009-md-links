@@ -6,8 +6,11 @@ const chalk = require("chalk");
 const fs = require("fs");
 const path = require("path");
 
-module.exports = function mdLinks() {
-  const filePath = process.argv[2];
+module.exports = function mdLinks(typedPath, option) {
+  const opt = option;
+  console.log(opt);
+
+  const filePath = typedPath;
   const dirName = path.dirname(filePath);
   const fileExtension = path.extname(filePath);
   const fileName = path.basename(filePath);
@@ -42,11 +45,6 @@ module.exports = function mdLinks() {
 
   var Table = require('cli-table');
 
-// instantiate
-
-
-
-
   const extractedLinks = (fileContents) => {
     const httpLinksRegex = /(https?:\/\/\S+(?=\b))/gm;
     const linkTextRegex = /\[(.*)\]/gm;
@@ -57,15 +55,15 @@ module.exports = function mdLinks() {
     );
     let table = new Table({
       head: ['Link', 'Text', 'FilePath']
-    , colWidths: [45, 40, 50]
+    , colWidths: [50, 40, 50]
   });
   
   // table is an Array, so you can `push`, `unshift`, `splice` and friends
  
     for (let i = 0; i <= links.length - 1; i++) {
-      console.log(
-        `Link: ${links[i]} - Text: ${linkTextsWithoutBrackets[i]} - File Path: ${process.argv[2]}`
-      );
+      // console.log(
+      //   `Link: ${links[i]} - Text: ${linkTextsWithoutBrackets[i]} - File Path: ${process.argv[2]}`
+      // );
       table.push(
         [links[i], linkTextsWithoutBrackets[i], process.argv[2]]
       , 
