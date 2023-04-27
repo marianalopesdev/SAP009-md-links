@@ -4,17 +4,20 @@ module.exports = function errorHandling(errorCode) {
   //  console.log('sd'+errorCode);
     let messageStatus;
     switch (codestatus) {
+      case 'INVALID_EXTENSION':
+          messageStatus = console.log(chalk.bgRed.whiteBright("Sorry. Only files with the .md extension can be analyzed."));
+        break;
       case 'ENOENT':
-          messageStatus = console.log(chalk.red("No such file or directory. Check the path or filename and try again."));
+          messageStatus = console.log(chalk.bgRed.whiteBright("No such file or directory. Check the path or filename and try again."));
         break;
         case 'EISDIR':
-          messageStatus = console.log(chalk.red("Illegal operation on a directory, you are trying to 'read' a directory as a file."));
+          messageStatus = console.log(chalk.bgRed.whiteBright("Illegal operation on a directory, you are trying to 'read' a directory as a file."));
         break;
         case 'EACCES':
-          messageStatus = console.log(chalk.red("Permission denied. You can't do this to this file."));
+          messageStatus = console.log(chalk.bgRed.whiteBright("Permission denied. You can't do this to this file."));
         break;I
         case 'ENOTDIR':
-          messageStatus = console.log(chalk.red("Not a directory."));
+          messageStatus = console.log(chalk.bgRed.whiteBright("Not a directory."));
         break;
       
       default:

@@ -2,10 +2,11 @@ const chalk = require("chalk");
 let https = require("https");
 const fs = require("fs");
 const Table = require("cli-table");
+const validateLinks = require("./validateLink");
 
 module.exports = function linkExtractor(fileContents) {
  
-console.log('ntrou')
+
     const httpLinksRegex = /(https?:\/\/\S+(?=\b))/gm;
     const linkTextRegex = /\[(.*)\]/gm;
     const links = fileContents.toString().match(httpLinksRegex);
@@ -27,6 +28,6 @@ console.log('ntrou')
     }
    console.log(table.toString());
     console.log(`The file contains ${links.length - 1} links.`);
-    //validateLinks(links);
+    validateLinks(links);
   
 };
