@@ -25,9 +25,12 @@ module.exports = function validateLinks(links) {
 
         counter++;
         if (counter === links.length - 1) {
-          resolve(brokenLinks);
+          resolve(table);
+          return {brokenLinks};
         }
+         
       });
     }
+  //  return {brokenLinks, table};
   });
 };
