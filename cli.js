@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const mdLinks = require('./fileStatus');
+const mdLinks = require('./src/fileStatus');
 
 const program = require('commander');
 const package = require('./package.json');
@@ -8,12 +8,6 @@ const package = require('./package.json');
 program.version(package.version);
 
 program
-    .command('add [todo]')
-    .description('Adiciona um to-do')
-    .action((todo) => {
-        console.log(todo);
-    });
-
     
     program
     .argument('<path>')
@@ -22,8 +16,7 @@ program
     .description('Mostra os links do arquivo')
     .action((path, option) => {
         
-   //  console.log(path + ' verify the files, modafocas')
-      mdLinks(path,option);
+    mdLinks(path,option);
     });
 
 
