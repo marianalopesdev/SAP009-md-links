@@ -10,8 +10,8 @@ module.exports = function mdLinks(typedPath, option) {
   const opt = option;
   const filePath = typedPath;
   const fileName = path.basename(filePath);
-
-  if (!opt) {
+console.log(opt);
+if (!opt.validate && !opt.stats) {
     fileReader(filePath)
       .then((fileContents) => {
         let { table } = linkExtractor(fileContents);
@@ -59,9 +59,9 @@ module.exports = function mdLinks(typedPath, option) {
       .then((fileContents) => {
         let { links } = linkExtractor(fileContents);
         let { uniqueLinks } = linkStats(links);
-        let { brokenLinks } = validateLinks(uniqueLinks).then((broken) => {
+        let { brokenLsinks } = validateLinks(uniqueLinks).then((brokenLinks) => {
           
-          console.log("Broken Links: " + broken);
+          console.log("Broken Links: " + brokenLsinks);
         });
       })
       .catch((error) => {
