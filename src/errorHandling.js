@@ -4,6 +4,9 @@ module.exports = function errorHandling(errorCode) {
   //  console.log('sd'+errorCode);
     let messageStatus;
     switch (codestatus) {
+      case 'NO_LINKS':
+          messageStatus = console.log(chalk.bgRed.white("There is no link in the selected file."));
+        break;
       case 'INVALID_EXTENSION':
           messageStatus = console.log(chalk.bgRed.whiteBright("Sorry. Only files with the .md extension can be analyzed."));
         break;
@@ -23,9 +26,5 @@ module.exports = function errorHandling(errorCode) {
       default:
         console.log("Unknown error: " + errorCode);
     }
-  
-    return messageStatus;
   };
   
-
-   
