@@ -8,22 +8,22 @@ const path = require("path");
 const { table } = require("console");
 
 module.exports = function mdLinks(typedPath, option) {
-  const opt = option;
+  const {validate, stats} = option;
   const filePath = typedPath;
   const fileName = path.basename(filePath);
-console.log(opt);
 
 
 const lala = (fileContents) => {
 
-  const {obj} = linkExtractor(fileContents);
+  
 
 //  console.log(obj);
-  if (!opt.validate && !opt.stats) {
-   // console.log(obj);
+  if (!validate && !stats) {
+    const {obj} = linkExtractor(fileContents);
   } 
-  else if (opt.validate && !opt.stats) {
-
+  else if (validate && !stats) {
+    console.log('bozo preso')
+    const {obj} = linkExtractor(fileContents, validate);
   }
 
 }
@@ -40,8 +40,8 @@ const lala = (fileContents) => {
       })
       .catch((error) => {
         const error1 = new Error('hshs');
-        error1.code = "NO_LINKS";
-        errorHandling(error1.code);
+       error1.code = "NO_LINKS";
+       errorHandling(error1.code);
         // readDir(filePath)
         //   .then((dirContent) => {
         //     console.log(dirContent);

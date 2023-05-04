@@ -25,7 +25,7 @@ module.exports = function validateLinks(links) {
 
         counter++;
         if (counter === links.length - 1) {
-          resolve(table);
+          resolve(table.toString());
           return {brokenLinks};
         }
          
@@ -33,4 +33,5 @@ module.exports = function validateLinks(links) {
     }
   //  return {brokenLinks, table};
   });
+  
 };
