@@ -1,2 +1,2 @@
-const mdLinks = require('./fileStatus');
+const mdLinks = require('./src/fileStatus');
 mdLinks();
