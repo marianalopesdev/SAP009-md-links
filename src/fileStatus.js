@@ -18,36 +18,43 @@ module.exports = function mdLinks(typedPath, option) {
     linkExtractor(fileContents).then((links) => {
       //  console.log(links); // ['https://github.com']
       const coisas = links;
+      const linksArray = coisas.map((obj) => obj.link);
       // console.log(coisas);
       if (!("validate" in option) && !("stats" in option)) {
-       // prinTable(links);
-       let simpleLinksTable = new Table({
-        head: ["Link", "Text", "File Path"],
-        colWidths: [50, 60, 50],
-      });  
-      for (let i = 0; i <= coisas.length - 1; i++) {
-        simpleLinksTable.push([coisas[i].link, coisas[i].text, filePath]);
-      }
-      console.log(simpleLinksTable.toString());
-      }
-      else if ((("validate" in option) && !("stats" in option))){
-      //  const a = (links);
-      const linksArray = coisas.map(obj => obj.link);
-
-  // console.log(linksArray);
-      validateLinks(linksArray).then((links) => {
-        console.log('voov');
-          console.log(links);
-
+        let simpleLinksTable = new Table({
+          head: ["Link", "Text", "File Path"],
+          colWidths: [50, 60, 50],
         });
+         prinTable(links,simpleLinksTable);       
+        // for (let i = 0; i <= coisas.length - 1; i++) {
+        //   simpleLinksTable.push([coisas[i].link, coisas[i].text, filePath]);
+        // }
+        // console.log(simpleLinksTable.toString());
+      } else if ("validate" in option && !("stats" in option)) {
+      
+        validateLinks(linksArray).then((validatedLinksTable) => {
+          //  console.log('voov');
+          console.log(validatedLinksTable);
+        });
+       } 
+      else if (!("validate" in option )&& ("stats" in option)) {
+        
+       const a=  linkStats(linksArray);
+       console.log(a);
+      } else {
+        console.log('aaaaaaaaaaa');
       }
     });
   };
 
-  const prinTable = (obj, flag) => {
+  const prinTable = (obj, table) => {
     const coisas = obj;
     console.log("ei");
     console.log(obj);
+    for (let i = 0; i <= obj.length - 1; i++) {
+      table.push([coisas[i].link, coisas[i].text, filePath]);
+        }
+        console.log(table.toString());
 
     // let simpleLinksTable = new Table({
     //   head: ["Link", "Text", "File Path"],
