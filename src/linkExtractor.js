@@ -30,8 +30,8 @@ module.exports = function linkExtractor(fileContents, flag) {
       return errorHandling(error.code);
     }
     const linkTexts = fileContents.toString().match(linkTextRegex);
-    console.log(links);
-    resolve(links);
+ //   console.log(links);
+    
 
     const linkTextsWithoutBrackets = linkTexts.map((linkText) =>
       linkText.replace(/\[|\]/g, "")
@@ -68,20 +68,21 @@ module.exports = function linkExtractor(fileContents, flag) {
         path: "path",
       };
       table.push([obj.link, obj.text, obj.path]);
-      linksResult.push([obj.link, obj.text, obj.path]);
+      linksResult.push(obj);
      
      
       // }
     }
-
-    if (flag === undefined) {
-      console.log("oi5");    
-     console.log(table.toString());
-    } else {
-    //  console.log(linksResult);
-      //
-      return links;
-      //
-    }
+    resolve(linksResult);
+    return {links};
+    // if (flag === undefined) {
+    //   console.log("oi5");    
+    //  console.log(table.toString());
+    // } else {
+    // //  console.log(linksResult);
+    //   //
+    //   return links;
+    //   //
+    // }
   });
 };

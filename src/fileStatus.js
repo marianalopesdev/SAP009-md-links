@@ -5,6 +5,7 @@ const linkExtractor = require("./linkExtractor");
 const validateLinks = require("./validateLink");
 const chalk = require("chalk");
 const path = require("path");
+const Table = require("cli-table");
 
 module.exports = function mdLinks(typedPath, option) {
   //  const {validate, stats} = option;
@@ -14,42 +15,84 @@ module.exports = function mdLinks(typedPath, option) {
   console.log(validate);
 
   const getSpecificContent = (fileContents) => {
-    if ("validate" in option && !("stats" in option)) {
-      linkExtractor(fileContents, validate).then((links) => {
-        console.log(links); // ['https://github.com']
-      });
-      //console.log(links);
-      // let table = new Table({
-      //   head: ["Link", "Text", "FilePath"],
-      //   colWidths: [50, 40, 50],
-      // });
-      // validateLinks(links)
-      //   .then((table) => {
-      //     console.log('val')
-      // console.log(table);
-      //  //   console.log(tablea);
+    linkExtractor(fileContents).then((links) => {
+      //  console.log(links); // ['https://github.com']
+      const coisas = links;
+      // console.log(coisas);
+      if (!("validate" in option) && !("stats" in option)) {
+       // prinTable(links);
+       let simpleLinksTable = new Table({
+        head: ["Link", "Text", "File Path"],
+        colWidths: [50, 60, 50],
+      });  
+      for (let i = 0; i <= coisas.length - 1; i++) {
+        simpleLinksTable.push([coisas[i].link, coisas[i].text, filePath]);
+      }
+      console.log(simpleLinksTable.toString());
+      }
+      else if ((("validate" in option) && !("stats" in option))){
+      //  const a = (links);
+      const linksArray = coisas.map(obj => obj.link);
 
-      //   })
-      //   .catch((error) => {
-      //     reject(error);
-      //   });
-    } else {
-      //console.log(result);
-      linkExtractor(fileContents);
-    }
+  // console.log(linksArray);
+      validateLinks(linksArray).then((links) => {
+        console.log('voov');
+          console.log(links);
+
+        });
+      }
+    });
   };
+
+  const prinTable = (obj, flag) => {
+    const coisas = obj;
+    console.log("ei");
+    console.log(obj);
+
+    // let simpleLinksTable = new Table({
+    //   head: ["Link", "Text", "File Path"],
+    //   colWidths: [50, 60, 50],
+    // });
+
+    // for (let i = 0; i <= coisas.length - 1; i++) {
+    //   simpleLinksTable.push([coisas[i].link, coisas[i].text, filePath]);
+    // }
+    // console.log(simpleLinksTable.toString());
+  };
+
+  // if ("validate" in option && !("stats" in option)) {
+
+  //   //console.log(links);
+  //   // let table = new Table({
+  //   //   head: ["Link", "Text", "FilePath"],
+  //   //   colWidths: [50, 40, 50],
+  //   // });
+  //   // validateLinks(links)
+  //   //   .then((table) => {
+  //   //     console.log('val')
+  //   // console.log(table);
+  //   //  //   console.log(tablea);
+
+  //   //   })
+  //   //   .catch((error) => {
+  //   //     reject(error);
+  //   //   });
+  // } else {
+  //   //console.log(result);
+  //  // linkExtractor(fileContents);
+  // }
 
   // if (!opt.validate && !opt.stats) {
   fileReader(filePath)
     .then((fileContents) => {
       getSpecificContent(fileContents);
-     // console.log(fileContents);
+      // console.log(fileContents);
       // let { table } = linkExtractor(fileContents);
       // console.log(`The file ${fileName} contains ${table.length - 1} links.`);
       // console.log(table.toString());
     })
     .catch((error) => {
-     console.log(error);
+      console.log(error);
       const error1 = new Error("hshs");
       error1.code = "NO_LINKS";
       errorHandling(error1.code);
