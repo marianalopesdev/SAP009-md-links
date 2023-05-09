@@ -29,7 +29,7 @@ Aqui está uma lista de links úteis para vários tópicos:
 
 - [Small Business Administration](https://www.sba.gov/) - Agência do governo dos EUA que fornece recursos e suporte a pequenas empresas.
 - [Entrepreneur](https://www.entrepreneur.com/) - Recursos e notícias para empreendedores.
-- [Harvard Business Review](https://hbr.org/) - Revista de negócios que apresenta artigos de liderança, estratégia e inovação.
+
 - [Forbes](https://www.forbes.com/) - Revista de negócios que apresenta notícias e artigos sobre finanças, empreendedorismo e liderança.
 
 Espero que esses links sejam úteis para você!
@@ -37,6 +37,4 @@ Espero que esses links sejam úteis para você!
 ## Links duplicados
 
 - [Small Business Administration](https://www.sba.gov/) - Agência do governo dos EUA que fornece recursos e suporte a pequenas empresas.
-- [Entrepreneur](https://www.entrepreneur.com/) - Recursos e notícias para empreendedores.
-- [Harvard Business Review](https://hbr.org/) - Revista de negócios que apresenta artigos de liderança, estratégia e inovação.
-- [Forbes](https://www.forbes.com/) - Revista de negócios que apresenta notícias e artigos sobre finanças, empreendedorismo e liderança.
+- [Entrepreneur](https://www.eepreneur.com/) - Recursos e notícias para empreendedores.

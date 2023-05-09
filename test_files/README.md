@@ -1,3 +1,9 @@
 
-- [GitHub](https://github.com/) - Plataforma de hospedagem de código-fonte.
-- [Microsoft Developer Network](https://developer.microsoft.com/) - Recursos para desenvolvedores de software, incluindo documentação, 
+
+
+
+- [Figma](https://www.figma.com/) - Ferramenta de design de interface do usuário baseada na web.
+- [Sketch](https://www.sketch.com/) - Ferramenta de design vetorial para Mac.
+- [Sketch](https://www.sketch.com/) - Ferramenta de design vetorial para Mac.
+- [Sketch](https://www.smmcm.com/) - Ferramenta de design vetorial para Mac.
+- [Sketch](https://www.heroicas.com.br/) - Ferramenta de design vetorial para Mac.

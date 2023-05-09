@@ -3,12 +3,12 @@ const fileReader = require("./fileReader");
 const errorHandling = require("./errorHandling");
 const linkExtractor = require("./linkExtractor");
 const validateLinks = require("./validateLink");
+const printTable = require("./printTable");
 const chalk = require("chalk");
 const path = require("path");
 const Table = require("cli-table");
 
 module.exports = function mdLinks(typedPath, option) {
-  //  const {validate, stats} = option;
   const filePath = typedPath;
   const fileName = path.basename(filePath);
   const { validate, stats } = option;
@@ -16,56 +16,77 @@ module.exports = function mdLinks(typedPath, option) {
 
   const getSpecificContent = (fileContents) => {
     linkExtractor(fileContents).then((links) => {
-      //  console.log(links); // ['https://github.com']
       const coisas = links;
       const linksArray = coisas.map((obj) => obj.link);
-      // console.log(coisas);
+      //  console.log(coisas);
+      let simpleLinksTable = new Table({
+        head: ["Link", "Text", "File Path"],
+        colWidths: [50, 60, 50],
+      });
       if (!("validate" in option) && !("stats" in option)) {
-        let simpleLinksTable = new Table({
-          head: ["Link", "Text", "File Path"],
-          colWidths: [50, 60, 50],
-        });
-         prinTable(links,simpleLinksTable);       
+        console.log("no options selected");
+        console.log(filePath);
+        printTable(links, simpleLinksTable, filePath, '');
         // for (let i = 0; i <= coisas.length - 1; i++) {
         //   simpleLinksTable.push([coisas[i].link, coisas[i].text, filePath]);
         // }
         // console.log(simpleLinksTable.toString());
       } else if ("validate" in option && !("stats" in option)) {
-      
-        validateLinks(linksArray).then((validatedLinksTable) => {
-          //  console.log('voov');
-          console.log(validatedLinksTable);
+        validateLinks(linksArray).then((validatedLinks) => {
+          //  console.log(validatedLinks);
+          let validatedLinksTable = new Table({
+            head: ["Link", "HttpMessage", "StatusCode", "File Path"],
+            colWidths: [50, 60, 20, 50],
+          });
+          //   console.log(validatedLinksTable);
+          printTable(validatedLinks, validatedLinksTable, filePath, "simple");
         });
-       } 
-      else if (!("validate" in option )&& ("stats" in option)) {
-        
-       const a=  linkStats(linksArray);
-       console.log(a);
+      } else if (!("validate" in option) && "stats" in option) {
+        linkStats(linksArray).then((statsarray) => {
+          console.log("stasarray");
+          console.log(statsarray.uniqueLinksLength);
+          console.log(statsarray.verifiedLinks);
+        });
       } else {
-        console.log('aaaaaaaaaaa');
+        linkStats(linksArray).then((statsarray) => {
+          console.log("stasarray");
+          console.log(statsarray);
+          console.log(statsarray);
+        });
+
+        //ir até coisas, testar o status code com if e depois  chamar link stats ou só a resposta dele const a
+        console.log("end of specific content");
       }
     });
   };
 
-  const prinTable = (obj, table) => {
-    const coisas = obj;
-    console.log("ei");
-    console.log(obj);
-    for (let i = 0; i <= obj.length - 1; i++) {
-      table.push([coisas[i].link, coisas[i].text, filePath]);
-        }
-        console.log(table.toString());
-
-    // let simpleLinksTable = new Table({
-    //   head: ["Link", "Text", "File Path"],
-    //   colWidths: [50, 60, 50],
-    // });
-
-    // for (let i = 0; i <= coisas.length - 1; i++) {
-    //   simpleLinksTable.push([coisas[i].link, coisas[i].text, filePath]);
-    // }
-    // console.log(simpleLinksTable.toString());
-  };
+  // const prinTable = (obj, table, type) => {
+  //   console.log(typeof type);
+  //   const coisas = obj;
+  //   const t = type;
+  //   console.log(t);
+  //   console.log("printable fn");
+  //   console.log(obj);
+  //   if (t === "simple") {
+  //     console.log("not ssimple simpwl");
+  //     console.log(table);
+  //     for (let i = 0; i <= obj.length - 1; i++) {
+  //       table.push([
+  //         coisas[i].link,
+  //         coisas[i].status,
+  //         coisas[i].text,
+  //         filePath,
+  //       ]);
+  //     }
+  //    // console.log(table.toString());
+  //   } else {
+  //     for (let i = 0; i <= obj.length - 1; i++) {
+  //       table.push([coisas[i].link, coisas[i].text, filePath]);
+  //     }
+    
+  //   }
+  //   console.log(table.toString());
+  // };
 
   // if ("validate" in option && !("stats" in option)) {
 
