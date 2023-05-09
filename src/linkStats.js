@@ -14,7 +14,7 @@ module.exports = function linkExtractor(links) {
     uniqueLinks.map((link) =>
       fetch(link)
         .then((response) => {
-         // console.log(response.headers);
+      
           const obj = {
             link,
             status: response.status,

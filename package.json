@@ -32,7 +32,8 @@
     "chalk": "^4.1.2",
     "cli-table": "^0.3.11",
     "commander": "^10.0.1",
-    "node-fetch": "^2.6.9"
+    "node-fetch": "^2.6.9",
+    "md-links": "https://github.com/marianalopesdev/SAP009-md-links"
   },
   "bin": {
     "md-links": "cli.js"

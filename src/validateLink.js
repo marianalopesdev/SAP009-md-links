@@ -1,52 +1,50 @@
-let https = require("https");
-const Table = require("cli-table");
+const https = require("https");
 const showHttpStatusMessages = require("./httpStatusMessages");
 
 module.exports = function validateLinks(links) {
-  return new Promise((resolve, reject) => {
-    // let table = new Table({
-    //   head: ["Link", "HTTP Status", "HTTP Status Code", "Path"],
-    //   colWidths: [50, 60, 50, 30],
-    // });
-    // console.log(links);
-    let counter = 0;
-    let brokenLinks = 0;
-    //   console.log('dssssff');
-    const linksResult = [];
+  const linksResult = [];
 
-    // links.map
-
-    for (let i = 0; i <= links.length - 1; i++) {
-      https.get(links[i], (response) => {
-        response.setEncoding("utf8");
-        response.on("error", reject);
-        // console.log('dsssssssssssssssssssssff');
-        const httpStatusMessage = showHttpStatusMessages(response.statusCode);
-        const statusCode = response.statusCode;
-       console.log(statusCode);
-      
-      //           if (statusCode !== 200){
-      //  // console.log( 'dif');
-      //   brokenLinks++;
-      //   console.log(brokenLinks);
-      //           }
+  return Promise.all(
+    links.map((link) =>
+      new Promise((resolve, reject) => {
         const obj = {
-          link: links[i],
-          status: httpStatusMessage,
-          text: statusCode,
+          link: link,
+          status: "",
+          text: "",
           path: "path",
         };
-        //  table.push([obj.link, obj.text, obj.path]);
-        linksResult.push(obj);
 
-       // table.push([links[i], httpStatusMessage, statusCode, "me loco"]);
-        // console.log('dssssff');
-        counter++;
-        if (counter === links.length) {
-          //  console.log('dff');
-          resolve(linksResult);
-        }
-      });
-    }
-  });
+        https.get(link, (response) => {
+          response.setEncoding("utf8");
+          const { messageStatus, codestatus } = showHttpStatusMessages(
+            response.statusCode
+          );
+
+          obj.status = messageStatus;
+          obj.text = codestatus;
+
+          linksResult.push(obj);
+          resolve();
+        }).on("error", (error) => {
+          if (
+            error.code === "ERR_TLS_CERT_ALTNAME_INVALID" ||
+            error.code === "ENOTFOUND"
+          ) {
+            const { messageStatus, codestatus } = showHttpStatusMessages(
+              error.code
+            );
+            const statusCode = codestatus;
+
+            obj.status = messageStatus;
+            obj.text = statusCode;
+
+            linksResult.push(obj);
+            resolve();
+          } else {
+            reject(error);
+          }
+        });
+      })
+    )
+  ).then(() => linksResult);
 };
