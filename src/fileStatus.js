@@ -4,7 +4,6 @@ const errorHandling = require("./errorHandling");
 const linkExtractor = require("./linkExtractor");
 const validateLinks = require("./validateLink");
 const prinTable = require("./printTable");
-const chalk = require("chalk");
 const path = require("path");
 const Table = require("cli-table");
 
@@ -12,52 +11,54 @@ module.exports = function mdLinks(typedPath, option) {
   const filePath = typedPath;
   const fileName = path.basename(filePath);
   const { validate, stats } = option;
-  console.log(validate);
+  console.log("wait a second...");
 
   const getSpecificContent = (fileContents) => {
     linkExtractor(fileContents).then((links) => {
-      const coisas = links;
-      const linksArray = coisas.map((obj) => obj.link);
-        console.log(coisas);
-      let simpleLinksTable = new Table({
-        head: ["Link", "Text", "File Path"],
-        colWidths: [50, 60, 50],
-      });
-      if (!("validate" in option) && !("stats" in option)) {
-        console.log("no options selected");
-       // console.log
-        prinTable(links, simpleLinksTable, filePath);
-  
-      } else if ("validate" in option && !("stats" in option)) {
-        validateLinks(linksArray).then((validatedLinks) => {
-            console.log(validatedLinks);
-          let validatedLinksTable = new Table({
-            head: ["Link", "HttpMessage", "StatusCode", "File Path"],
-            colWidths: [50, 60, 20, 50],
-          });
-         
-          prinTable(validatedLinks, validatedLinksTable, filePath, "simple");
+      const dataLinks = links;
+      const onlyLinksArray = dataLinks.map((link) => link.link);
+
+      if (!validate && !stats) {
+        prinTable(dataLinks, filePath, "simple");
+      } else if (validate && !stats) {
+        validateLinks(onlyLinksArray).then((validatedLinks) => {
+          prinTable(validatedLinks, filePath, "validated");
         });
-      } else if (!("validate" in option) && "stats" in option) {
-        linkStats(linksArray).then((statsarray) => {
-          console.log("stasarray");
-          console.log(statsarray.uniqueLinksLength);
-          console.log(statsarray.verifiedLinks);
+      } else if (!validate && stats) {
+        linkStats(onlyLinksArray).then((statsObject) => {
+          prinTable(statsObject, "", "stats");
         });
       } else {
-        linkStats(linksArray).then((statsarray) => {
-          console.log("stasarray");
-          console.log(statsarray);
-          console.log(statsarray);
+        linkStats(onlyLinksArray).then((statsObject) => {
+          prinTable(statsObject, "", "statsvalidated");
         });
-
-        //ir até coisas, testar o status code com if e depois  chamar link stats ou só a resposta dele const a
-        console.log("end of specific content");
       }
     });
   };
 
- 
+  fileReader(filePath)
+    .then((fileContents) => {
+      getSpecificContent(fileContents);
+      // console.log(fileContents);
+      // let { table } = linkExtractor(fileContents);
+      // console.log(`The file ${fileName} contains ${table.length - 1} links.`);
+      // console.log(table.toString());
+    })
+    .catch((error) => {
+      console.log(error);
+      const error1 = new Error("hshs");
+      error1.code = "NO_LINKS";
+      errorHandling(error1.code);
+      // readDir(filePath)
+      //   .then((dirContent) => {
+      //     console.log(dirContent);
+      //   })
+      //   .catch((error) => {
+      //     const errorMessage = error.message;
+      //     //  console.log(errorMessage);
+      //     errorHandling(error.code);
+      //   });
+    });
 
   // if ("validate" in option && !("stats" in option)) {
 
@@ -82,29 +83,7 @@ module.exports = function mdLinks(typedPath, option) {
   // }
 
   // if (!opt.validate && !opt.stats) {
-  fileReader(filePath)
-    .then((fileContents) => {
-      getSpecificContent(fileContents);
-      // console.log(fileContents);
-      // let { table } = linkExtractor(fileContents);
-      // console.log(`The file ${fileName} contains ${table.length - 1} links.`);
-      // console.log(table.toString());
-    })
-    .catch((error) => {
-      console.log(error);
-      const error1 = new Error("hshs");
-      error1.code = "NO_LINKS";
-      errorHandling(error1.code);
-      // readDir(filePath)
-      //   .then((dirContent) => {
-      //     console.log(dirContent);
-      //   })
-      //   .catch((error) => {
-      //     const errorMessage = error.message;
-      //     //  console.log(errorMessage);
-      //     errorHandling(error.code);
-      //   });
-    });
+
   // } else if (opt.validate && !opt.stats) {
   //   fileReader(filePath)
   //     .then((fileContents) => {

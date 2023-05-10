@@ -3,12 +3,10 @@ module.exports = function showHttpStatusMessages(code) {
   if(code === 'ERR_TLS_CERT_ALTNAME_INVALID' ){
     code = 401; 
   }
-  const codestatus = code;
-  // console.log('codestatus');
-  // console.log(codestatus);
-
+  const statusCode = code;
   let messageStatus;
-  switch (codestatus) {
+  
+  switch (statusCode) {
     case 200:
         messageStatus = chalk.bgGreen("Status  OK - This site works fine!");
       break;
@@ -52,5 +50,5 @@ module.exports = function showHttpStatusMessages(code) {
       console.log("Unknown error: " + statusCode);
   }
 
-  return {messageStatus, codestatus};
+  return {messageStatus, statusCode};
 };
