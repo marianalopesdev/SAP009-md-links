@@ -9,6 +9,7 @@ const Table = require("cli-table");
 
 module.exports = function mdLinks(typedPath, option) {
   const filePath = typedPath;
+  console.log(typedPath);
   const fileName = path.basename(filePath);
   const { validate, stats } = option;
   console.log("wait a second...");
@@ -26,6 +27,7 @@ module.exports = function mdLinks(typedPath, option) {
         });
       } else if (!validate && stats) {
         linkStats(onlyLinksArray).then((statsObject) => {
+         
           prinTable(statsObject, "", "stats");
         });
       } else {
@@ -38,17 +40,19 @@ module.exports = function mdLinks(typedPath, option) {
 
   fileReader(filePath)
     .then((fileContents) => {
-      getSpecificContent(fileContents);
-      // console.log(fileContents);
+      getSpecificContent(fileContents.toString());
+       console.log(fileContents);
       // let { table } = linkExtractor(fileContents);
       // console.log(`The file ${fileName} contains ${table.length - 1} links.`);
       // console.log(table.toString());
     })
     .catch((error) => {
-      console.log(error);
-      const error1 = new Error("hshs");
-      error1.code = "NO_LINKS";
-      errorHandling(error1.code);
+     //
+     const errorCode = error;
+     errorHandling(errorCode);
+      // const error1 = new Error("hshs");
+      // error1.code = "NO_LINKS";
+      // errorHandling(error1.code);
       // readDir(filePath)
       //   .then((dirContent) => {
       //     console.log(dirContent);
