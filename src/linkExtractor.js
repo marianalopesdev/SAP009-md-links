@@ -2,7 +2,7 @@ const errorHandling = require("./errorHandling");
 
 module.exports = function linkExtractor(fileContents) {
   return new Promise((resolve, reject) => {
-    console.log('nend')
+    
     const httpLinksRegex = /(https?:\/\/\S+(?=\b))/gm;
     const linkTextRegex = /\[(.*)\]/gm;
     const links = fileContents.toString().match(httpLinksRegex);

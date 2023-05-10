@@ -13,9 +13,11 @@ module.exports = function fileReader(filePath) {
       if (fileExtension !== ".md") {
         const error = new Error("Arquivo não tem a extensão .md");
         error.code = "INVALID_EXTENSION";
-        reject(error.code);
+        return reject(error.code);
+        
       }
       resolve(fileContents.toString());
+      console.log(fileContents.toString());
     });
   });
 };
