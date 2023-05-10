@@ -1,8 +1,12 @@
 const chalk = require("chalk");
 module.exports = function showHttpStatusMessages(code) {
-  const codestatus = code;
+  if(code === 'ERR_TLS_CERT_ALTNAME_INVALID' ){
+    code = 401; 
+  }
+  const statusCode = code;
   let messageStatus;
-  switch (codestatus) {
+  
+  switch (statusCode) {
     case 200:
         messageStatus = chalk.bgGreen("Status  OK - This site works fine!");
       break;
@@ -15,14 +19,16 @@ module.exports = function showHttpStatusMessages(code) {
       ));
       break;
     case 401:
+      // case 'ERR_TLS_CERT_ALTNAME_INVALID':
         messageStatus = (chalk.bgBlue(
-        "Unauthorized. We checked and you are not on the list. Get an invitation next time."
+        "Unauthorized. Get an authorization next time."
       ));
       break;
     case 403:
       messageStatus = (chalk.bgRed("This site is forbidden for you!"));
       break;
-    case 404:
+    case 404 :
+     
       messageStatus = (chalk.bgBlue("This site could not be found... "));
       break;
     case 405:
@@ -44,5 +50,5 @@ module.exports = function showHttpStatusMessages(code) {
       console.log("Unknown error: " + statusCode);
   }
 
-  return messageStatus;
+  return {messageStatus, statusCode};
 };

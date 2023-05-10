@@ -1,36 +1,47 @@
-let https = require("https");
-const Table = require("cli-table");
+const https = require("https");
 const showHttpStatusMessages = require("./httpStatusMessages");
 
 module.exports = function validateLinks(links) {
-  return new Promise((resolve, reject) => {
-    let table = new Table({
-      head: ["Link", "HTTP Status"],
-      colWidths: [50, 60, 50],
-    });
+  const linksResult = [];
 
-    let counter = 0;
-    let brokenLinks = 0;
-
-    for (let i = 0; i <= links.length - 1; i++) {
-      https.get(links[i], (response) => {
-        response.setEncoding("utf8");
-        response.on("error", reject);
-
-        if (response.statusMessage !== "OK" && response.statusMessage !== "") {
-          brokenLinks += 1;
-        }
-        const httpStatusMessage = showHttpStatusMessages(response.statusCode);
-        table.push([links[i], httpStatusMessage, "me loco"]);
-
-        counter++;
-        if (counter === links.length - 1) {
-          resolve(table);
-          return {brokenLinks};
-        }
-         
-      });
-    }
-  //  return {brokenLinks, table};
-  });
+  return Promise.all(
+    links.map(
+      (link) =>
+        new Promise((resolve, reject) => {
+          const linkObject = {
+            link: link,
+            status: "",
+            text: "",
+            path: "path",
+          };
+          https
+            .get(link, (response) => {
+              response.setEncoding("utf8");
+              const { messageStatus, statusCode } = showHttpStatusMessages(
+                response.statusCode
+              );
+              linkObject.status = messageStatus;
+              linkObject.text = statusCode;
+              linksResult.push(linkObject);
+              resolve();
+            })
+            .on("error", (error) => {
+              if (
+                error.code === "ERR_TLS_CERT_ALTNAME_INVALID" ||
+                error.code === "ENOTFOUND"
+              ) {
+                const { messageStatus, statusCode } = showHttpStatusMessages(
+                  error.code
+                );
+                linkObject.status = messageStatus;
+                linkObject.text = statusCode;
+                linksResult.push(linkObject);
+                resolve();
+              } else {
+                reject(error);
+              }
+            });
+        })
+    )
+  ).then(() => linksResult);
 };

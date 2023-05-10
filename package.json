@@ -15,7 +15,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose --coverage",
+    "build": "babel src --out-dir dist"
   },
   "repository": {
     "type": "git",
@@ -30,9 +31,19 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "cli-table": "^0.3.11",
-    "commander": "^10.0.1"
+    "commander": "^10.0.1",
+    "md-links": "https://github.com/marianalopesdev/SAP009-md-links",
+    "node-fetch": "^2.6.9"
   },
   "bin": {
     "md-links": "cli.js"
-  }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
+    "jest": "^29.5.0"
+  },
+  "presets": [
+    "@babel/preset-env"
+  ]
 }
