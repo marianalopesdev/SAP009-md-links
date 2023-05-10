@@ -9,13 +9,15 @@ const Table = require("cli-table");
 
 module.exports = function mdLinks(typedPath, option) {
   const filePath = typedPath;
-  console.log(typedPath);
+//  console.log(typedPath);
   const fileName = path.basename(filePath);
   const { validate, stats } = option;
   console.log("wait a second...");
 
   const getSpecificContent = (fileContents) => {
+    console.log(fileContents);
     linkExtractor(fileContents).then((links) => {
+    //  console.log(links);
       const dataLinks = links;
       const onlyLinksArray = dataLinks.map((link) => link.link);
 
@@ -40,8 +42,8 @@ module.exports = function mdLinks(typedPath, option) {
 
   fileReader(filePath)
     .then((fileContents) => {
-      getSpecificContent(fileContents.toString());
-       console.log(fileContents);
+      getSpecificContent(fileContents);
+      console.log(fileContents);
       // let { table } = linkExtractor(fileContents);
       // console.log(`The file ${fileName} contains ${table.length - 1} links.`);
       // console.log(table.toString());
