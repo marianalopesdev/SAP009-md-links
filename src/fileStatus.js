@@ -17,7 +17,9 @@ module.exports = function mdLinks(typedPath, option) {
   const getSpecificContent = (fileContents) => {
     console.log(fileContents);
     linkExtractor(fileContents).then((links) => {
-    //  console.log(links);
+      console.log('links');
+
+      console.log(links);
       const dataLinks = links;
       const onlyLinksArray = dataLinks.map((link) => link.link);
 
@@ -25,6 +27,7 @@ module.exports = function mdLinks(typedPath, option) {
         prinTable(dataLinks, filePath, "simple");
       } else if (validate && !stats) {
         validateLinks(onlyLinksArray).then((validatedLinks) => {
+          console.log(validatedLinks);
           prinTable(validatedLinks, filePath, "validated");
         });
       } else if (!validate && stats) {
