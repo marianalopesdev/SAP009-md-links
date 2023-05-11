@@ -3,7 +3,7 @@ const showHttpStatusMessages = require("./httpStatusMessages");
 
 module.exports = function validateLinks(links) {
   const linksResult = [];
-
+console.log(links);
   return Promise.all(
     links.map(
       (link) =>
@@ -12,7 +12,7 @@ module.exports = function validateLinks(links) {
             link: link,
             status: "",
             text: "",
-            path: "path",
+            path: "",
           };
           https
             .get(link, (response) => {

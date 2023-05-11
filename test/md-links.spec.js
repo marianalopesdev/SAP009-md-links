@@ -2,6 +2,7 @@ const fileReader = require('../src/fileReader');
 const fs = require("fs");
 const path = require("path");
 const linkExtractor = require('../src/linkExtractor');
+const validateLinks = require('../src/validateLink');
 // const jest = require('@jest/globals');
 describe('fileReader', () => {
 
@@ -50,6 +51,46 @@ describe('linkExtractor', () => {
          //  jest.setTimeout(600000);
         expect(result).toEqual(a);
       })      
+      
   });
-  
+  it('should throw error has no links', () => {
+    const filePath = 'test_files/README_empty.md';
+    const errorCode = 'NO_LINKS'; // Código de erro esperado
+
+    return expect(linkExtractor(filePath)).rejects.toEqual(errorCode);
+  });
 });
+
+  
+
+  describe('validateLinks', () => {
+    it('should return href status', () => {
+      const links = [
+        'https://www.figma.com',
+     
+      ];
+
+      const validatedLinks = [
+        {
+          link: 'https://www.figma.com',
+          status: 'Status  OK - This site works fine!',
+          text: 200,
+          path: ''
+        },
+       ]      ;
+
+
+  
+      return validateLinks(links)
+        .then((result) => {
+         
+          expect(result).toEqual(validatedLinks);
+        })      
+    });
+    it('should throw error if the file extension is not .md', () => {
+      const filePath = 'test_files/README.txt';
+      const errorCode = 'INVALID_EXTENSION'; // Código de erro esperado
+  
+      return expect(fileReader(filePath)).rejects.toEqual(errorCode);
+    });
+  });
