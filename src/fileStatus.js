@@ -4,8 +4,10 @@ const errorHandling = require("./errorHandling");
 const linkExtractor = require("./linkExtractor");
 const validateLinks = require("./validateLink");
 const prinTable = require("./printTable");
+const dirReader = require("./dirReader");
 const path = require("path");
 const Table = require("cli-table");
+const { readFile } = require("fs");
 
 module.exports = function mdLinks(typedPath, option) {
   const filePath = typedPath;
@@ -45,16 +47,57 @@ module.exports = function mdLinks(typedPath, option) {
 
   fileReader(filePath)
     .then((fileContents) => {
+      console.log(' do filereader em filestatus');
+      console.log(filePath);
       getSpecificContent(fileContents);
-      console.log(fileContents);
+     // console.log(fileContents);
       // let { table } = linkExtractor(fileContents);
       // console.log(`The file ${fileName} contains ${table.length - 1} links.`);
       // console.log(table.toString());
     })
     .catch((error) => {
-     //
-     const errorCode = error;
-     errorHandling(errorCode);
+      if ((error.code = "EISDIR")) {
+          console.log("eisdir");
+
+          dirReader(filePath)
+            .then((dirContent) => {
+              console.log(' dentro do dirReader dentro do filereader');
+              console.log(dirContent);
+              console.log(' dfilepath do direreader');
+              console.log(filePath);
+              dirContent.forEach(element => {
+                console.log('element do foreach');
+               console.log(element);
+                
+             fileReader(filePath+'/'+element)
+             .then((fileContent) => {
+              // console.log('links');
+              console.log(fileContent.toString());
+             })
+             console.log('a');
+          //   console.log(a);
+
+
+            //  linkExtractor(a)
+            //  .then((links)=> {
+            //   validateLinks(links).then((validatedLinks) => {
+            //     console.log(validatedLinks);
+            //     prinTable(validatedLinks, filePath, "validated");
+            //   });
+            //  }) ;
+                
+              });
+             // console.log(fileContents);
+            })
+            .catch((error) => {
+              //
+              const errorCode = error;
+              errorHandling(errorCode);
+            });
+            return;
+        }
+    // const errorCode = error;
+  //   errorHandling(errorCode);
       // const error1 = new Error("hshs");
       // error1.code = "NO_LINKS";
       // errorHandling(error1.code);
