@@ -45,47 +45,36 @@ const a = element;
     });
   };
 
-  fileReader(filePath)
-    .then((fileContents) => {
-      // console.log(" do filereader em filestatus");
-      // console.log(filePath);
-      getSpecificContent(fileContents, fileName);
-    })
-    .catch((error) => {
-      if ((error.code = "EISDIR")) {
-        console.log("eisdir");
-
-        dirReader(filePath)
-          .then((dirContent) => {
-            // console.log(" dentro do dirReader dentro do filereader");
-            // console.log(dirContent);
-            // console.log(" dfilepath do direreader");
-            // console.log(filePath);
-            dirContent.forEach((element) => {
-              // console.log("element do foreach");
-              // console.log(element);
-
-              fileReader(filePath + "/" + element)
-              .then((fileContent) => {
-                // console.log("links");
-                // console.log(fileContent.toString());
-                getSpecificContent(fileContent, element);
-              })
-              .catch((error) => {
-                //console.log(error);
-                const errorCode = error;
-                errorHandling(errorCode);
+  function readFiles(filePath) {
+    console.log('bbbb');
+    fileReader(filePath)
+      .then((fileContents) => {
+        getSpecificContent(fileContents, fileName);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error === "EISDIR") {
+          console.log('aaaa');
+          dirReader(filePath)
+            .then((dirContent) => {
+              dirContent.forEach((element) => {
+                console.log(dirContent);
+                const nestedPath = filePath + "/" + element;
+               console.log(nestedPath);
+                readFiles(nestedPath); 
               });
-              console.log("a");
+            })
+            .catch((error) => {
+              const errorCode = error;
+              errorHandling(errorCode);
             });
-            // console.log(fileContents);
-          })
-          .catch((error) => {
-            //console.log(error);
-            const errorCode = error;
-            errorHandling(errorCode);
-          });
-        return;
-      }
-    });
+        } else {
+          const errorCode = error;
+          errorHandling(errorCode);
+        }
+      });
+  }
+  
+  readFiles(filePath);
+
 };

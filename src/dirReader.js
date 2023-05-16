@@ -10,7 +10,8 @@ module.exports = function dirReader(filePath) {
      //   console.log(err);
     }
         
-          console.log('eisdir');
+          console.log('dentro de dirReader');
+           console.log(filePath);
          // console.log(fileContents);
           
        

@@ -9,9 +9,10 @@ module.exports = function fileReader(filePath) {
    // console.log(filePath);
 
     fs.readFile(filePath, (err, fileContents) => {
-      // console.log('readfile');
-      // console.log(filePath);
+      console.log('readfile');
+      console.log(filePath);
       if (err) {
+        console.log(err.code);
         return reject(err.code);
         
       }
