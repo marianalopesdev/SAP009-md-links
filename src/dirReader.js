@@ -4,22 +4,16 @@ const errorHandling = require("./errorHandling");
 
 module.exports = function dirReader(filePath) {
   return new Promise((resolve, reject) => {
-   
     fs.readdir(filePath, (err, fileContents) => {
       if (err) {
-     //   console.log(err);
-    }
-        
-          console.log('dentro de dirReader');
-           console.log(filePath);
-         // console.log(fileContents);
-          
-       
-       
-    
-     
+        reject(err);
+      }
+
+      // console.log('dentro de dirReader');
+      //  console.log(filePath);
+      // console.log(fileContents);
+
       resolve(fileContents);
-     // console.log(fileContents.toString());
     });
   });
 };

@@ -3,7 +3,7 @@ const showHttpStatusMessages = require("./httpStatusMessages");
 
 module.exports = function validateLinks(links) {
   const linksResult = [];
-console.log(links);
+
   return Promise.all(
     links.map(
       (link) =>

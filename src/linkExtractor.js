@@ -1,17 +1,15 @@
-const errorHandling = require("./errorHandling");
-
 module.exports = function linkExtractor(fileContents) {
   return new Promise((resolve, reject) => {
     
     const httpLinksRegex = /(https?:\/\/\S+(?=\b))/gm;
     const linkTextRegex = /\[(.*)\]/gm;
-    const links = fileContents.toString().match(httpLinksRegex);
+    const links = fileContents.match(httpLinksRegex);
     if (links === null) {
       const error = new Error("No links in the file");
       error.code = "NO_LINKS";
-      return errorHandling(error.code);
+      return reject((error.code));
     }
-    const linkTexts = fileContents.toString().match(linkTextRegex);
+    const linkTexts = fileContents.match(linkTextRegex);
     const linkTextsWithoutBrackets = linkTexts.map((linkText) =>
       linkText.replace(/\[|\]/g, "")
     );
