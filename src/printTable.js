@@ -18,7 +18,7 @@ module.exports = function prinTable(obj, path, type) {
       ]);
     }
   } else if (tableType === "simple") {
-    table.options.colWidths = [50, 60, 50];
+    table.options.colWidths = [50, 60, 60];
     table.push(["Link", "Text", "File Path"]);
     for (let i = 0; i <= obj.length - 1; i++) {
       table.push([linksObject[i].link, linksObject[i].text, path]);
@@ -37,4 +37,5 @@ module.exports = function prinTable(obj, path, type) {
     ]);
   }
   console.log(table.toString());
+  console.log();
 };
